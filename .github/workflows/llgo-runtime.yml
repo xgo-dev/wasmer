@@ -70,7 +70,7 @@ jobs:
         run: cargo test -p virtual-fs --release --locked
       - name: Test WASI runtime and syscall regressions
         run: >-
-          cargo test -p wasmer-wasix --release --locked --features '${{ matrix.test-features }}' --lib --test timestamp_syscalls --test path_unlink_file
+          cargo test -p wasmer-wasix --release --locked --features '${{ matrix.test-features }}' --lib --test timestamp_syscalls --test path_unlink_file --test poll_clock
       - name: Load pinned C toolchain version
         if: runner.os != 'Windows'
         run: |
@@ -202,7 +202,7 @@ jobs:
               export RUST_LOG=off
               target=riscv64gc-unknown-linux-gnu
               cargo test -p virtual-fs --release --locked --target "$target" --test timestamps
-              cargo test -p wasmer-wasix --release --locked --target "$target" --features wasmer/cranelift --test timestamp_syscalls --test path_unlink_file
+              cargo test -p wasmer-wasix --release --locked --target "$target" --features wasmer/cranelift --test timestamp_syscalls --test path_unlink_file --test poll_clock
               cargo test -p wasmer-wasix --release --locked --target "$target" --features wasmer/cranelift --lib stat_refresh_preserves_buffered_write_size
               cargo build -p wasmer-cli --release --locked --target "$target" --features cranelift --bin wasmer
               rustup target add --toolchain 1.96 wasm32-wasip1
